@@ -122,3 +122,7 @@ call order_new_campaign (3, 4);
 call order_new_campaign (4, 2);
 call order_new_campaign (4, 3);
 call order_new_campaign (4, 4);
+
+create or replace view number_of_campaigns_view as
+select clients.phone_num, count(clients.phone_num) as "number_of_campaigns", min(clients.balance) as "balance" from client_campaigns JOIN clients on 
+client_campaigns.clients_id=clients.clients_id group by clients.phone_num;
