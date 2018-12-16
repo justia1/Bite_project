@@ -50,3 +50,13 @@ begin
         :new.campaign_id := campaign_id_seq.nextval;
     end if;
 end;
+
+create or replace procedure new_campaign ( p_campaign_name campaigns.campaign_id%type, p_duration number, p_price number) 
+IS 
+BEGIN 
+ 
+INSERT into campaigns ( campaign_name,  duration,   price ) 
+values  
+( p_campaign_name,  p_duration,   p_price); 
+commit; 
+end;
