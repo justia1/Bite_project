@@ -77,4 +77,20 @@ set status = (CASE
 
     end;  
 
-
+create or replace procedure order_new_campaign ( p_clients_id clients.clients_id%type, p_campaign_id campaigns.campaign_id%type) 
+is kaina number; likutis number;
+begin
+select price into kaina from campaigns where campaigns.campaign_id= p_campaign_id;
+select balance into likutis from clients where clients.clients_id=p_clients_id;
+case 
+when kaina <= likutis then
+change_balance (p_clients_id, -kaina);
+insert into client_campaigns(clients_id, campaign_id, expiration_date, price)
+    values
+        (p_clients_id,
+        p_campaign_id,
+        (sysdate + (select campaigns.duration  from campaigns where campaigns.campaign_id=p_campaign_id)),
+        (select campaigns.price from campaigns  where campaigns.campaign_id=p_campaign_id) );
+else DBMS_OUTPUT.PUT_LINE('No sufficient funds');
+end case;
+end;
