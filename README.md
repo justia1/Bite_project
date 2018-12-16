@@ -27,3 +27,26 @@ constraint client_campaigns_clid_fk foreign key (clients_id) references  CLIENTS
 constraint client_campaigns_campid_fk foreign key (campaign_id) references  CAMPAIGNS (campaign_id) ON DELETE set NULL 
 );
 create index client_campaigns_ix on client_campaigns (clients_id, campaign_id);
+
+create sequence clients_id_seq nocache;
+
+create or replace trigger clients_id_seq
+    before insert or update on CLIENTS
+    for each row
+begin
+    if inserting and :new.clients_id is null then
+        :new.clients_id := clients_id_seq.nextval;
+    
+    end if;
+end;
+
+create sequence campaign_id_seq nocache;
+
+create or replace trigger campaign_id_seq
+    before insert or update on CAMPAIGNS
+    for each row
+begin
+    if inserting and :new.campaign_id is null then
+        :new.campaign_id := campaign_id_seq.nextval;
+    end if;
+end;
