@@ -51,7 +51,7 @@ begin
     end if;
 end;
 
-create or replace procedure new_campaign ( p_campaign_name campaigns.campaign_id%type, p_duration number, p_price number) 
+create or replace procedure new_campaign ( p_campaign_name campaigns.campaign_name%type, p_duration number, p_price number) 
 IS 
 BEGIN 
  
@@ -94,3 +94,31 @@ insert into client_campaigns(clients_id, campaign_id, expiration_date, price)
 else DBMS_OUTPUT.PUT_LINE('No sufficient funds');
 end case;
 end;
+
+insert into clients ( phone_num, balance, expiration_date)
+values
+(37063451743, 00, to_date ('2019/03/21', 'yyyy/mm/dd'));
+
+insert into clients ( phone_num, balance, expiration_date)
+values
+( 37063451843, 01, to_date ('2019/04/05', 'yyyy/mm/dd'));
+insert into clients ( phone_num, balance, expiration_date)
+values
+(37063458743, 5, to_date ('2019/02/15', 'yyyy/mm/dd'));
+
+insert into clients ( phone_num, balance, expiration_date)
+values
+( 37063454143, 10, to_date ('2019/01/06', 'yyyy/mm/dd'));
+
+call new_campaign ( 'TINKLAINIS', 30, 00);
+call new_campaign ('SDAUGIAU', 7, 1.29);
+call new_campaign ('YES', 30, 2.89);
+call new_campaign ( 'FAV', 30, 4.99);
+
+call order_new_campaign (1, 1);
+call order_new_campaign (2, 4);
+call order_new_campaign (3, 1);
+call order_new_campaign (3, 4);
+call order_new_campaign (4, 2);
+call order_new_campaign (4, 3);
+call order_new_campaign (4, 4);
