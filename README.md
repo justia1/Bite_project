@@ -60,3 +60,21 @@ values
 ( p_campaign_name,  p_duration,   p_price); 
 commit; 
 end;
+
+create or replace procedure change_balance (p_clients_id number, p_money number)  
+IS  
+BEGIN  
+  
+UPDATE clients  
+SET balance = balance+p_money  
+where clients_id=p_clients_id;  
+UPDATE clients   
+set status = (CASE  
+        when p_money > 0  
+        then 'ACTIVE' 
+        else    'DEACTIVE'   
+    END) where clients_id=p_clients_id;
+
+    end;  
+
+
